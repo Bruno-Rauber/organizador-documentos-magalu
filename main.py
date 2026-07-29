@@ -27,9 +27,7 @@ def extrair_texto(pasta, pdf):
 documentos_obrigatorios = {
     "transferencia_pf": ["cnh", "Comprovante_de_endereco", "Extrato_bancario", "imposto_de_Renda_PF", "Certidao_de_estado_civil"],
 
-    "transferencia_pj": ["cnh", "Comprovante_de_endereco", "Certidao_de_estado_civil", "Contrato_social", "Simples_Nacional", "Comprovante_de_endereco_da_empresa", "Renda_de_empresa"],
-
-    "concessao": ["Fotos_do_veiculo", "CRLV"]
+    "transferencia_pj": ["cnh", "Comprovante_de_endereco_da_empresa", "Certidao_de_estado_civil", "Contrato_social", "Simples_Nacional",  "Renda_da_empresa"],
 }
 
 palavras_chaves = {
@@ -41,7 +39,7 @@ palavras_chaves = {
     "Contrato_social": ["contrato social"],
     "Simples_Nacional": ["simples nacional"],
     "Comprovante_de_endereco_da_empresa": ["sanepar", "copel", "cep"],
-    "Renda_de_empresa": ["extrato", "agência"],
+    "Renda_da_empresa": ["extrato", "agência"],
     "crlv": ["renavam"]
 }
 
@@ -68,3 +66,33 @@ for arquivo in pdf:
         resultados[arquivo] = definir_tipo_docoumento(texto)
 
 print(resultados)
+
+
+def difinir_tipo_cadastro(resultados):
+
+    if any("Contrato_social" in lista_documentos for lista_documentos in resultados.values()):
+        return "transferencia_pj"
+    else:
+        return "transferencia_pf"
+
+print(difinir_tipo_cadastro(resultados))
+
+
+documentos_encontrados = []
+
+for lista_documentos in resultados.values():
+    documentos_encontrados.extend(lista_documentos)
+
+print(documentos_encontrados)
+
+documentos_faltando = []
+
+for documento in documentos_obrigatorios[difinir_tipo_cadastro(resultados)]:
+    if documento not in documentos_encontrados:
+        documentos_faltando.append(documento)
+
+if (len(documentos_faltando) > 0):
+    print(f"Segue a lista de documentos que faltam: {documentos_faltando}")
+
+else:
+    print("Todos docuemntos encontrados")
