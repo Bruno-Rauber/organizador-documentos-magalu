@@ -30,3 +30,32 @@ documentos_obrigatorios = {
     "concessao": ["Fotos_do_veiculo", "CRLV"]
 }
 
+palavras_chaves = {
+    "cnh": ["senatran"],
+    "Comprovante_de_endereco": ["sanepar", "copel", "cep", "endereço"],
+    "Extrato_bancario": ["extrato", "agência"],
+    "imposto_de_Renda_PF": ["imposto de renda"],
+    "Certidao_de_estado_civil": ["certidao de casamento", "certidao de nascimento"],
+    "Contrato_social": ["contrato social"],
+    "Simples_Nacional": ["simples nacional"],
+    "Comprovante_de_endereco_da_empresa": ["sanepar", "copel", "cep"],
+    "Renda_de_empresa": ["extrato", "agencia"],
+    "crlv": ["renavam"]
+}
+
+def definir_tipo_docoumento(texto_extrido_documento):
+    candidato = []
+
+    for tipo_documento, palavra_chave in palavras_chaves.items():
+        for palavra in palavra_chave:
+            if palavra in texto_extrido_documento.lower():
+                print(palavra)
+                candidato.append(tipo_documento)
+                break
+
+    print(candidato)
+
+    return candidato
+
+definir_tipo_docoumento(extrair_texto(pasta, pdf[2]))
+
