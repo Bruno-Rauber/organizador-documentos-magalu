@@ -7,20 +7,22 @@ arquivos = os.listdir(pasta)
 
 pdf = [arquivo for arquivo in arquivos if arquivo.endswith(".pdf")]
 
-print(pdf)
 
 def extrair_texto(pasta, pdf):
+    """
+    :param pasta: pasta dos arquivos
+    :param pdf: pdf ou listas de pdfs
+    :return:
+    """
     pdf_aberto = pdfplumber.open(f"{pasta}/{pdf}")
 
     primera_pagina = pdf_aberto.pages[0]
     texto_extraido_pagina_um = primera_pagina.extract_text()
 
     if texto_extraido_pagina_um is None or texto_extraido_pagina_um == "":
-        print("⚠️ não consegui ler esse PDF, provavelmente é imagem")
+        print(f"⚠️ não consegui ler esse PDF ({pdf}), provavelmente é imagem")
     else:
         return texto_extraido_pagina_um
-
-print(extrair_texto(pasta, pdf[0]))
 
 documentos_obrigatorios = {
     "transferencia_pf": ["cnh", "Comprovante_de_endereco", "Extrato_bancario", "imposto_de_Renda_PF", "Certidao_de_estado_civil"],
@@ -39,23 +41,30 @@ palavras_chaves = {
     "Contrato_social": ["contrato social"],
     "Simples_Nacional": ["simples nacional"],
     "Comprovante_de_endereco_da_empresa": ["sanepar", "copel", "cep"],
-    "Renda_de_empresa": ["extrato", "agencia"],
+    "Renda_de_empresa": ["extrato", "agência"],
     "crlv": ["renavam"]
 }
 
 def definir_tipo_docoumento(texto_extrido_documento):
     candidato = []
+    resultados = {}
 
     for tipo_documento, palavra_chave in palavras_chaves.items():
         for palavra in palavra_chave:
             if palavra in texto_extrido_documento.lower():
-                print(palavra)
                 candidato.append(tipo_documento)
                 break
 
-    print(candidato)
-
     return candidato
 
-definir_tipo_docoumento(extrair_texto(pasta, pdf[2]))
 
+resultados = {}
+
+for arquivo in pdf:
+    texto = extrair_texto(pasta, arquivo)
+    if texto is None:
+        resultados[arquivo] = [f"Precisa analisar Manualmente"]
+    else:
+        resultados[arquivo] = definir_tipo_docoumento(texto)
+
+print(resultados)
