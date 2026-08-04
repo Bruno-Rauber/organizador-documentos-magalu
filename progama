@@ -1,0 +1,11 @@
+Sequência Lógica do código    ( V - variável / L -lista/ F- Função / D - Dicionário ) Variavies importante [resultados guarda ]
+
+ # 1 - V [pasta] vai abrir uma pasta
+
+ # 2 - l [pdf] guarda todos os arquivos da [pasta] que terminam com ".pdf"
+
+ # 3 -   F [extrair_texto] recebe pasta e um pdf, abre pdf, abre primeira pagina dele, extrai o texta dessa pagina.
+
+ # 4 -   F [definir_tipo_docoumento] Recebe o texto extraído - percorro os itens do D [palavras_chaves], preciso percorrer os valores da cada um e checar se algum está no texto extraido e coloco em [candidatos]
+
+ # 5 -   Faço um loop para cada arquivo da L pdf e chamo função extrair texto passando a pasta e o arquivo
