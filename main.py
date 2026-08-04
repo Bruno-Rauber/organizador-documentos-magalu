@@ -63,7 +63,7 @@ def executar_pasta(lista_pdfs: list) -> dict:
     for pdf in lista_pdfs:
         texto = extrair_texto(pasta_para_analise_arquivos, pdf)
         if texto is None:
-            resultados[pdf] = [f" ({pdf}) Sem identeificação"]
+            resultados[pdf] = []
         else:
             resultados[pdf] = definir_tipo_documento(texto)
     return resultados
@@ -96,3 +96,23 @@ if (len(documentos_faltando) > 0):
 
 else:
     print("Todos documentos encontrados")
+
+
+def decidir_nome_arquivo(candidatos: list) -> str:
+    """
+    Recebe a lista de candidatos de um documento e decide o nome final:
+    - único candidato -> usa ele
+    - mais de um -> ambíguo
+    - nenhum -> não identificado
+    """
+    if len(candidatos) == 1:
+        return f"{candidatos[0]}"
+
+    else:
+        return f"Nao_identificado"
+
+nomes_finais = {}
+
+for pdf, candidatos in loop_da_pasta.items():
+    nomes_finais[pdf] = decidir_nome_arquivo(candidatos)
+print(f"Nomes finais {nomes_finais}")
