@@ -32,14 +32,13 @@ documentos_obrigatorios = {
 
 palavras_chaves = {
     "cnh": ["senatran"],
-    "Comprovante_de_endereco": ["sanepar", "copel", "cep", "endereço"],
-    "Extrato_bancario": ["extrato", "agência"],
+    "Comprovante_de_endereco": ["sanepar", "copel"],
+    "Extrato_bancario": ["extrato"],
     "imposto_de_Renda_PF": ["imposto de renda"],
     "Certidao_de_estado_civil": ["certidao de casamento", "certidao de nascimento"],
     "Contrato_social": ["contrato social"],
     "Simples_Nacional": ["simples nacional"],
-    "Comprovante_de_endereco_da_empresa": ["sanepar", "copel", "cep"],
-    "Renda_da_empresa": ["extrato", "agência"],
+    "Renda_da_empresa": ["extrato"],
     "crlv": ["renavam"]
 }
 
@@ -57,7 +56,10 @@ def definir_tipo_documento(texto_extraido_pagina_um: str) -> list:
                 candidato.append(documento)
                 break
 
+    print(candidato)
     return candidato
+
+
 
 def executar_pasta(lista_pdfs: list) -> dict:
     resultados = {}  # Resultados é Dic onde cada chave é o Nome original do arquivo e o valor é o possivel tipo de arquivo que ele é
