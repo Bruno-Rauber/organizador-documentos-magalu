@@ -14,15 +14,15 @@ def extrair_texto(pasta: str, pdf: list) -> str:
     Recebe uma pasta e um arquivo(PDF) dela para extrair
     o texto da primeira página
     """
-    abrir_pdf = pdfplumber.open(f"{pasta}/{pdf}")
 
-    primera_pagina = abrir_pdf.pages[0]
-    texto_extraido_pagina_um = primera_pagina.extract_text()
+    with pdfplumber.open(f"{pasta}/{pdf}") as abrir_pdf:
+        primera_pagina = abrir_pdf.pages[0]
+        texto_extraido_pagina_um = primera_pagina.extract_text()
 
-    if texto_extraido_pagina_um is None or texto_extraido_pagina_um == "":
-        print(f"⚠️ Não consegui ler esse PDF ({pdf}), provavelmente é uma imagem \n")
-    else:
-        return texto_extraido_pagina_um
+        if texto_extraido_pagina_um is None or texto_extraido_pagina_um == "":
+            print(f"⚠️ Não consegui ler esse PDF ({pdf}), provavelmente é uma imagem \n")
+        else:
+            return texto_extraido_pagina_um
 
 documentos_obrigatorios = {
     "transferencia_pf": ["cnh", "Comprovante_de_endereco", "Extrato_bancario", "imposto_de_Renda_PF", "Certidao_de_estado_civil"],
@@ -130,6 +130,9 @@ for arquivo, nome_final in nomes_finais.items():
         nomes_para_renomear[arquivo] = arquivo  # mantém original
     else:
         contador_nomes[nome_final] += 1
-        nomes_para_renomear[arquivo] = f"{nome_final}_{contador_nomes[nome_final]}"
+        nomes_para_renomear[arquivo] = f"{nome_final}_{contador_nomes[nome_final]}.pdf"
 
-print(nomes_para_renomear)
+for arquivo, nome_novo in nomes_para_renomear.items():
+    caminho_atual = f"{pasta_para_analise_arquivos}/{arquivo}"
+    caminho_novo = f"{pasta_para_analise_arquivos}/{nome_novo}"
+    os.rename(caminho_atual, caminho_novo)
