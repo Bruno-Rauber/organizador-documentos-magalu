@@ -1,6 +1,8 @@
 import os
 import pdfplumber
 
+
+
 pasta_para_analise_arquivos = "C:/Users/bruno/Desktop/pasta para teste de codigo"
 
 lista_todos_arquivos = os.listdir(pasta_para_analise_arquivos)
@@ -116,3 +118,18 @@ nomes_finais = {}
 for pdf, candidatos in loop_da_pasta.items():
     nomes_finais[pdf] = decidir_nome_arquivo(candidatos)
 print(f"Nomes finais {nomes_finais}")
+
+
+from collections import Counter
+
+contador_nomes = Counter()
+nomes_para_renomear = {}
+
+for arquivo, nome_final in nomes_finais.items():
+    if nome_final == "Nao_identificado":
+        nomes_para_renomear[arquivo] = arquivo  # mantém original
+    else:
+        contador_nomes[nome_final] += 1
+        nomes_para_renomear[arquivo] = f"{nome_final}_{contador_nomes[nome_final]}"
+
+print(nomes_para_renomear)
